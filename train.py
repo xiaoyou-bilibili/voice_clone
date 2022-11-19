@@ -39,7 +39,7 @@ torch.backends.cudnn.benchmark = True  #
 
 
 @click.command()
-@click.option('-p', '--config_path', default='Configs/config.yml', type=str)
+@click.option('-p', '--config_path', default='config/config.yml', type=str)
 def main(config_path):
     config = yaml.safe_load(open(config_path))
 
@@ -144,9 +144,9 @@ def main(config_path):
 
 def get_data_path_list(train_path=None, val_path=None):
     if train_path is None:
-        train_path = "train.txt"
+        train_path = "dataset/train.txt"
     if val_path is None:
-        val_path = "val.txt"
+        val_path = "dataset/val.txt"
 
     with open(train_path, 'r') as f:
         train_list = f.readlines()

@@ -12,7 +12,7 @@ from torch import nn
 from PIL import Image
 from tqdm import tqdm
 
-from losses import compute_d_loss, compute_g_loss
+from core.star.losses import compute_d_loss, compute_g_loss
 
 import logging
 logger = logging.getLogger(__name__)

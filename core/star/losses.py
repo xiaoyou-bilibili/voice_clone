@@ -5,7 +5,7 @@ import torch
 
 from torch import nn
 from munch import Munch
-from transforms import build_transforms
+from core.star.transforms import build_transforms
 
 import torch.nn.functional as F
 import numpy as np

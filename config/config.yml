@@ -1,4 +1,4 @@
-log_dir: "Models/VCTK20"
+log_dir: "model/VCTK20"
 save_freq: 2
 device: "cuda"
 epochs: 150
@@ -7,12 +7,12 @@ pretrained_model: ""
 load_only_params: false
 fp16_run: true
 
-train_data: "train.txt"
-val_data: "val.txt"
+train_data: "dataset/train.txt"
+val_data: "dataset/val.txt"
 
-F0_path: "Utils/JDC/bst.t7"
-ASR_config: "Utils/ASR/config.yml"
-ASR_path: "Utils/ASR/epoch_00100.pth"
+F0_path: "utils/JDC/bst.t7"
+ASR_config: "utils/ASR/config.yml"
+ASR_path: "utils/ASR/epoch_00100.pth"
 
 preprocess_params:
   sr: 24000
