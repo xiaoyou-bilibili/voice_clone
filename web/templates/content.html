@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>声音克隆</title>
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>
+    <!--    引入jQuery-->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .field-left{
+            width: 80%;
+        }
+        .field-right{
+            width: 20%;
+        }
+        .layui-field-box img{
+            max-width: 100%;
+        }
+        .layui-table tbody tr {
+            height: 50px;
+        }
+        .layui-table-cell{
+            height: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div style="display: flex;align-content: center;justify-content: center">
+    <div class="layui-tab" style="width: 80%">
+          <ul class="layui-tab-title">
+            <li class="layui-this">声音转换</li>
+            <li>声音克隆</li>
+          </ul>
+          <div class="layui-tab-content">
+            <div class="layui-tab-item">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">原始音频</label>
+                        <input type="file"  id="origin_audio" name="origin_audio" value=""/>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">转换角色</label>
+                            <div class="layui-input-block" style="max-width: 900px">
+                                <input type="radio" name="role" value="0" title="派蒙" checked/>
+                                <input type="radio" name="role" value="1" title="可莉" />
+                                <input type="radio" name="role" value="2" title="香菱" />
+                                <input type="radio" name="role" value="3" title="七七" />
+                                <input type="radio" name="role" value="4" title="丽莎" />
+                                <input type="radio" name="role" value="5" title="胡桃" />
+                                <input type="radio" name="role" value="6" title="琴" />
+                                <input type="radio" name="role" value="7" title="凝光" />
+                                <input type="radio" name="role" value="8" title="芭芭拉" />
+                                <input type="radio" name="role" value="9" title="安柏" />
+                                <input type="radio" name="role" value="10" title="云堇" />
+                                <input type="radio" name="role" value="11" title="刻晴" />
+                                <input type="radio" name="role" value="12" title="砂糖" />
+                                <input type="radio" name="role" value="13" title="甘雨" />
+                                <input type="radio" name="role" value="14" title="雷电将军" />
+                                <input type="radio" name="role" value="15" title="凯亚" />
+                                <input type="radio" name="role" value="16" title="行秋" />
+                                <input type="radio" name="role" value="17" title="温迪" />
+                                <input type="radio" name="role" value="18" title="迪卢克" />
+                                <input type="radio" name="role" value="19" title="钟离" />
+                            </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                          <button class="layui-btn" lay-submit lay-filter="convert">立即转换</button>
+                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+                <div style="display: flex;margin-top: 30px">
+                    <fieldset class="layui-elem-field field-right">
+                      <legend>转换结果</legend>
+                        <video id="voice_clone_res" style="height: 50px;width: 300px;margin: 20px" controls="" name="media"><source src="" type="audio/x-wav"></video>
+                    </fieldset>
+                  </div>
+            </div>
+            <div class="layui-tab-item layui-show">
+            <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">原始音频</label>
+                        <input type="file"  id="origin_audio_clone" name="origin_audio_clone" value=""/>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">参考音频</label>
+                        <input type="file"  id="refer_audio_clone" name="refer_audio_clone" value=""/>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                          <button class="layui-btn" lay-submit lay-filter="clone">立即转换</button>
+                          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+            </form>
+            <div style="display: flex;margin-top: 30px">
+                <fieldset class="layui-elem-field field-right">
+                    <legend>合成结果</legend>
+                    <video id="voice_clone2_res" style="height: 50px;width: 300px;margin: 20px" controls="" name="media"><source src="" type="audio/x-wav"></video>
+                </fieldset>
+            </div>
+            </div>
+          </div>
+    </div>
+</div>
+<script>
+// 选项卡依赖element模块
+layui.use('element', function(){});
+// 弹窗函数
+let index = null
+function load() {
+    index = layer.load(1, {shade: [0.6, '#000000']})
+}
+function close() {
+    layer.close(index)
+}
+// 语音合成
+layui.use('form', function(){
+  var form = layui.form;
+  //监听提交
+  form.on('submit(convert)', (origin) => {
+      let data = {"role": origin.field.role, "data": ""}
+      let fileReader = new FileReader()
+      fileReader.onload = function () {
+          data.data = this.result
+          load()
+          $.post("/voice/clone", data, (data, _)=>{
+            layer.msg('合成成功！', {icon: 6})
+            document.getElementById("voice_clone_res").src = data.audio + "?t=" + Math.random()
+            close()
+          })
+      }
+      fileReader.readAsDataURL(document.getElementById("origin_audio").files[0]) // 读第一个文件的内容
+      return false;
+  });
+    //监听提交
+  form.on('submit(clone)', (origin) => {
+      console.log("克隆")
+      let data = {"origin": "", "refer": ""}
+      let originReader = new FileReader()
+      let referReader = new FileReader()
+      originReader.onload = function () {data.origin = this.result}
+      referReader.onload = function () {data.refer = this.result}
+      originReader.readAsDataURL(document.getElementById("origin_audio_clone").files[0]) // 读取第一个文件
+      referReader.readAsDataURL(document.getElementById("refer_audio_clone").files[0]) // 读取第二个文件
+      console.log(data)
+      let inter = setInterval(()=>{
+          if (data.refer !== "" && data.origin !== "") {
+              clearInterval(inter)
+              $.post("/voice/clone2", data, (data, _)=>{
+                layer.msg('合成成功！', {icon: 6})
+                document.getElementById("voice_clone2_res").src = data.audio + "?t=" + Math.random()
+                close()
+            })
+          }
+      },10)
+      return false;
+  });
+});
+</script>
+</body>
+</html>

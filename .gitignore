@@ -1,0 +1,4 @@
+.idea
+model
+*.wav
+*.pth
