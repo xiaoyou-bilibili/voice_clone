@@ -26,7 +26,7 @@ vocoder = load_model("model/vocoder/checkpoint-400000steps.pkl").to('cuda').eval
 vocoder.remove_weight_norm()
 _ = vocoder.eval()
 # 加载训练好的模型
-model_path = 'model/weight/epoch_00216.pth'
+model_path = 'model/weight/epoch_00250.pth'
 with open('model/weight/config.yml') as f:
     starganv2_config = yaml.safe_load(f)
 starganv2 = build_model(model_params=starganv2_config["model_params"])
