@@ -6,6 +6,12 @@
 
 ## 效果演示
 
+[B站](https://www.bilibili.com/video/BV1S84y1k7KS) 
+
+[YouTube](https://youtu.be/6AdGZX_M260)
+
+## 项目截图
+
 ![](images/3ad20050.png)
 
 ![](images/0328c738.png)
