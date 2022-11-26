@@ -1,0 +1,16 @@
+kind: pipeline
+type: docker
+name: build
+steps:
+  - name: push # 自动推送到私有仓库update
+    image: plugins/docker
+    pull: if-not-exists # 镜像拉取策略
+    settings:
+      registry: registry.xiaoyou66.host # 私有仓库地址
+      repo: registry.xiaoyou66.host/ai/voice-clone # 仓库全称
+      use_cache: true
+      username: xiaoyou # 设置私有仓库的账号密码
+      password: xiaoyou
+      tags: # 设置我们的标签
+        - latest
+        - 0.0.1
