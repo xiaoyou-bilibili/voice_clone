@@ -13,4 +13,4 @@ steps:
       password: xiaoyou
       tags: # 设置我们的标签
         - latest
-        - 0.0.1
+        - 0.0.2
