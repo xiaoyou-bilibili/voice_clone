@@ -6,8 +6,8 @@ steps:
     image: plugins/docker
     pull: if-not-exists # 镜像拉取策略
     settings:
-      registry: registry.xiaoyou66.host # 私有仓库地址
-      repo: registry.xiaoyou66.host/ai/voice-clone # 仓库全称
+      registry: registry.xiaoyou.host # 私有仓库地址
+      repo: registry.xiaoyou.host/ai/voice-clone # 仓库全称
       use_cache: true
       username: xiaoyou # 设置私有仓库的账号密码
       password: xiaoyou
